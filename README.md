@@ -2,6 +2,8 @@
 
 ## Usage
 
+See [examples](./examples).
+
 ## License
 
 MIT
