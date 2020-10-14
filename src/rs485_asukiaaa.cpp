@@ -70,16 +70,22 @@ namespace rs485_asukiaaa {
   #ifdef DEBUG_PRINT_RS485
       Serial.print("Receive: ");
   #endif
-      while (serial->available() || millis() - waitFrom < msTimeout) {
-        if (!serial->available()) {
+      while (serial->available() > 0 || millis() - waitFrom < msTimeout) {
+        if (queryIndex == queryLenToReceive) {
+          if (serial->available() > 0) {
+  #ifdef DEBUG_PRINT_RS485
+            Serial.println("stop receiving because buffer length was over");
+  #endif
+            return Error::OverQueryMaxLen;
+          }
+          break;
+        }
+        if (serial->available() == 0) {
           delay(1);
           continue;
         }
         waitFrom = millis();
         if (queryIndex == queryLenToReceive) {
-  #ifdef DEBUG_PRINT_RS485
-          Serial.println("stop receiving because buffer length was over");
-  #endif
           return Error::OverQueryMaxLen;
         }
         queryBuffer[queryIndex] = serial->read();
