@@ -202,7 +202,7 @@ namespace rs485_asukiaaa {
 
     void Central::uint32tToUint16tArr(uint32_t v32t, uint16_t* arr) {
       arr[0] = v32t >> 16;
-      arr[1] = v32t | 0xffff;
+      arr[1] = v32t & 0xffff;
     }
 
     uint16_t createCRC16(const uint8_t* data, uint16_t dataLen) {
