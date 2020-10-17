@@ -23,12 +23,21 @@ namespace rs485_asukiaaa {
       Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
       void begin(long baudrate, int config = SERIAL_8N1);
       void beginWithoutSerial();
+      int readQuery(uint8_t address, uint8_t fnCode, uint8_t* data, uint16_t dataLen, unsigned long msTimeout = 50UL);
+      int readRegistersBy16t(uint8_t deviceAddress, uint16_t readStartAddress, uint16_t* registerData, uint16_t dataLen);
+      int readRegistersBy32t(uint8_t deviceAddress, uint16_t readStartAddress, uint32_t* registerData, uint16_t dataLen);
       void writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data, uint16_t dataLen);
-      uint8_t readQuery(uint8_t address, uint8_t fnCode, uint8_t* data, uint16_t dataLen, unsigned long msTimeout = 50UL);
+      int writeRegisterBy16t(uint8_t deviceAddress, uint16_t registerAddress, uint16_t data16bit);
+      int writeRegistersBy16t(uint8_t deviceAddress, uint16_t registerAddress, uint16_t* registerData, uint16_t dataLen);
+      int writeRegistersBy32t(uint8_t deviceAddress, uint16_t registerAddress, uint32_t* registerData, uint16_t dataLen);
     private:
       HardwareSerial* serial;
       int16_t pinDe;
       int16_t pinRe;
+
+      static uint16_t uint8tArrToUint16t(uint8_t *data);
+      static uint32_t uint16tArrToUint32t(uint16_t *data);
+      static void uint32tToUint16tArr(uint32_t v32t, uint16_t* arr);
     };
 
     uint16_t createCRC16(const uint8_t* data, uint16_t dataLen);
