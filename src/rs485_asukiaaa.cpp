@@ -46,6 +46,9 @@ namespace rs485_asukiaaa {
         serial->write(queryBuffer[i]);
       }
       serial->flush();
+      delay(1);
+      digitalWrite(pinDe, LOW);
+      digitalWrite(pinRe, LOW);
   #ifdef DEBUG_PRINT_RS485
       Serial.print("Send: ");
       for (i = 0; i < queryLen; ++i) {
@@ -54,10 +57,6 @@ namespace rs485_asukiaaa {
       }
       Serial.println("");
   #endif
-      delay(1);
-      digitalWrite(pinDe, LOW);
-      digitalWrite(pinRe, LOW);
-      delay(1);
     }
 
     int Central::writeRegisterBy16t(uint8_t deviceAddress, uint16_t registerAddress, uint16_t data16bit) {
