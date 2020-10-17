@@ -73,7 +73,6 @@ namespace rs485_asukiaaa {
 
     int Central::writeRegistersBy32t(uint8_t deviceAddress, uint16_t writeStartAddress, uint32_t* registerData, uint16_t dataLen) {
       uint16_t data[dataLen * 2];
-      // memcpy(registerData, data, dataLen * sizeof(uint32_t));
       for (int i = 0; i < dataLen; ++i) {
         uint32tToUint16tArr(registerData[i], &data[i * 2]);
       }
@@ -183,9 +182,6 @@ namespace rs485_asukiaaa {
       uint8_t uint8Buffs[buffLen];
       int result = readQuery(deviceAddress, readFnCode, uint8Buffs, buffLen);
       if (result != 0) { return result; }
-      // Serial.println("");
-      // Serial.println(rDataLen);
-      // Serial.println(data16bitLen * 2 + 1);
       for (uint16_t i = 0; i < dataLen; ++i) {
         registerData[i] = uint8tArrToUint16t(&uint8Buffs[i * 2 + 1]); // + 1 to skip data length byte
       }
