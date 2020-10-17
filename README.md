@@ -2,7 +2,7 @@
 
 ## Usage
 
-See [examples](./examples).
+See [examples](./examples) and [a header file](./src/rs485_asukiaaa.h).
 
 ## License
 
