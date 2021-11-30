@@ -17,7 +17,7 @@ namespace rs485_asukiaaa {
       digitalWrite(pinRe, LOW);
     }
 
-    void Central::begin(long baudrate, int config) {
+    void Central::begin(unsigned long baudrate, unsigned long config) {
       beginWithoutSerial();
       serial->begin(baudrate, config);
     }

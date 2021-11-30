@@ -21,7 +21,7 @@ namespace rs485_asukiaaa {
     class Central {
     public:
       Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
-      void begin(long baudrate, int config = SERIAL_8N1);
+      void begin(unsigned long baudrate, unsigned long config = SERIAL_8N1);
       void beginWithoutSerial();
       int readQuery(uint8_t address, uint8_t fnCode, uint8_t* data, uint16_t dataLen, unsigned long msTimeout = 50UL);
       int readRegistersBy16t(uint8_t deviceAddress, uint16_t readStartAddress, uint16_t* registerData, uint16_t dataLen);
