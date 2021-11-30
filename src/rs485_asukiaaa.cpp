@@ -108,13 +108,14 @@ namespace rs485_asukiaaa {
       Serial.print("Receive: ");
   #endif
       while (serial->available() > 0 || millis() - waitFrom < msTimeout) {
-        if (queryIndex == queryLenToReceive) {
-          if (serial->available() > 0) {
-  #ifdef DEBUG_PRINT_RS485
-            Serial.println("stop receiving because buffer length was over");
-  #endif
-            return Error::OverQueryMaxLen;
-          }
+        if (queryIndex >= queryLenToReceive) {
+  //         if (serial->available() > 0) {
+  // #ifdef DEBUG_PRINT_RS485
+  //           // Serial.println("stop receiving because buffer length was over");
+  // #endif
+  //           break;
+  //           // return Error::OverQueryMaxLen;
+  //         }
           break;
         }
         if (serial->available() == 0) {
@@ -138,6 +139,9 @@ namespace rs485_asukiaaa {
       if (queryIndex == 0) {
         return Error::NoResponse;
       }
+      if (dataLen != queryIndex - 4) {
+        return Error::UnmatchDataLen;
+      }
       uint16_t crc = createCRC16(queryBuffer, queryIndex - 2);
       if (highByte(crc) != queryBuffer[queryIndex - 1] ||
           lowByte(crc) != queryBuffer[queryIndex - 2]) {
@@ -148,9 +152,6 @@ namespace rs485_asukiaaa {
       }
       if (queryBuffer[1] != fnCode) {
         return Error::UnmatchFnCode;
-      }
-      if (dataLen != queryIndex - 4) {
-        return Error::UnmatchDataLen;
       }
 
       for (uint16_t i = 0; i < dataLen; ++i) {
