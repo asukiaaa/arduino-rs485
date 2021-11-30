@@ -123,9 +123,6 @@ namespace rs485_asukiaaa {
           continue;
         }
         waitFrom = millis();
-        if (queryIndex == queryLenToReceive) {
-          return Error::OverQueryMaxLen;
-        }
         queryBuffer[queryIndex] = serial->read();
   #ifdef DEBUG_PRINT_RS485
         Serial.print(queryBuffer[queryIndex], HEX);
