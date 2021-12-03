@@ -14,8 +14,14 @@ Central::Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe) {
 void Central::beginWithoutSerial() {
   pinMode(pinDe, OUTPUT);
   pinMode(pinRe, OUTPUT);
-  digitalWrite(pinDe, LOW);
-  digitalWrite(pinRe, LOW);
+  setPinDeRe(LOW);
+}
+
+void Central::setPinDeRe(bool pinState) {
+  digitalWrite(pinDe, pinState);
+  if (pinDe != pinRe) {
+    digitalWrite(pinRe, pinState);
+  }
 }
 
 void Central::begin(unsigned long baudrate, unsigned long config) {
@@ -25,8 +31,7 @@ void Central::begin(unsigned long baudrate, unsigned long config) {
 
 void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                          uint16_t dataLen) {
-  digitalWrite(pinDe, HIGH);
-  digitalWrite(pinRe, HIGH);
+  setPinDeRe(HIGH);
   delay(1);
   uint16_t queryLen = 4 + dataLen;
   uint16_t i;
@@ -49,8 +54,7 @@ void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
   }
   serial->flush();
   delay(1);
-  digitalWrite(pinDe, LOW);
-  digitalWrite(pinRe, LOW);
+  setPinDeRe(LOW);
 #ifdef DEBUG_PRINT_RS485
   Serial.print("Send: ");
   for (i = 0; i < queryLen; ++i) {

@@ -45,6 +45,7 @@ class Central {
   int16_t pinDe;
   int16_t pinRe;
 
+  void setPinDeRe(bool pinState);
   static uint16_t uint8tArrToUint16t(uint8_t* data);
   static uint32_t uint16tArrToUint32t(uint16_t* data);
   static void uint32tToUint16tArr(uint32_t v32t, uint16_t* arr);
