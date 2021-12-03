@@ -28,9 +28,12 @@ enum Error : uint8_t {
 };
 
 String getStrOfError(Error e);
+unsigned long getMsSilintIntervalByBaudrate(unsigned long baudrate);
 
 class Central {
  public:
+  unsigned long msSilentInterval = 16;
+
   Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
   void begin(unsigned long baudrate, unsigned long config = SERIAL_8N1);
   void beginWithoutSerial();
@@ -53,7 +56,9 @@ class Central {
   HardwareSerial* serial;
   int16_t pinDe;
   int16_t pinRe;
+  unsigned long lastActionAt = 0;
 
+  void waitForSilentIntervalIfNecessary();
   void setPinDeRe(bool pinState);
   static uint16_t uint8tArrToUint16t(uint8_t* data);
   static uint32_t uint16tArrToUint32t(uint16_t* data);

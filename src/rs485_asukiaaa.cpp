@@ -42,13 +42,34 @@ void Central::setPinDeRe(bool pinState) {
   }
 }
 
+unsigned long getMsSilentIntervalByBaudrate(unsigned long baudrate) {
+  if (baudrate <= 2400) {
+    return 16;
+  } else if (baudrate <= 4800) {
+    return 8;
+  } else if (baudrate <= 9600) {
+    return 4;
+  } else {
+    return 2;
+  }
+}
+
 void Central::begin(unsigned long baudrate, unsigned long config) {
   beginWithoutSerial();
   serial->begin(baudrate, config);
+  msSilentInterval = getMsSilentIntervalByBaudrate(baudrate);
+}
+
+void Central::waitForSilentIntervalIfNecessary() {
+  auto msFromLastRead = millis() - lastActionAt;
+  if (msFromLastRead < msSilentInterval) {
+    delay(msSilentInterval - msFromLastRead);
+  }
 }
 
 void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                          uint16_t dataLen) {
+  waitForSilentIntervalIfNecessary();
   setPinDeRe(HIGH);
   delay(1);
   uint16_t queryLen = 4 + dataLen;
@@ -71,6 +92,7 @@ void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
     serial->write(queryBuffer[i]);
   }
   serial->flush();
+  lastActionAt = millis();
   delay(1);
   setPinDeRe(LOW);
 #ifdef DEBUG_PRINT_RS485
@@ -125,6 +147,7 @@ Error Central::writeRegistersBy16t(uint8_t deviceAddress,
 
 Error Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                          uint16_t dataLen, unsigned long msTimeout) {
+  waitForSilentIntervalIfNecessary();
   uint16_t queryIndex = 0;
   uint16_t queryLenToReceive = dataLen + 4;
   uint8_t queryBuffer[queryLenToReceive];
@@ -148,6 +171,7 @@ Error Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
 #endif
     ++queryIndex;
   }
+  lastActionAt = millis();
 #ifdef DEBUG_PRINT_RS485
   Serial.println("");
 #endif
