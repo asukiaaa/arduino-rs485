@@ -11,6 +11,13 @@ enum FnCode {
   WriteMulti = 0x10,
 };
 
+// enum Exception {
+//   InvalidFn = 1,
+//   InvalidAddr = 2,
+//   InvalidData = 3,
+//   SlaveError = 4,
+// };
+
 enum Error {
   NoResponse = 11,
   UnmatchCrc = 12,
