@@ -18,7 +18,8 @@ enum FnCode {
 //   SlaveError = 4,
 // };
 
-enum Error {
+enum Error : uint8_t {
+  None = 0,
   NoResponse = 11,
   UnmatchCrc = 12,
   UnmatchAddress = 13,
@@ -26,27 +27,27 @@ enum Error {
   ShortDataLen = 15,
 };
 
-String getStrFromError(Error e);
+String getStrOfError(Error e);
 
 class Central {
  public:
   Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
   void begin(unsigned long baudrate, unsigned long config = SERIAL_8N1);
   void beginWithoutSerial();
-  int readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
-                uint16_t dataLen, unsigned long msTimeout = 50UL);
-  int readRegistersBy16t(uint8_t deviceAddress, uint16_t readStartAddress,
-                         uint16_t* registerData, uint16_t dataLen);
-  int readRegistersBy32t(uint8_t deviceAddress, uint16_t readStartAddress,
-                         uint32_t* registerData, uint16_t dataLen);
+  Error readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
+                  uint16_t dataLen, unsigned long msTimeout = 50UL);
+  Error readRegistersBy16t(uint8_t deviceAddress, uint16_t readStartAddress,
+                           uint16_t* registerData, uint16_t dataLen);
+  Error readRegistersBy32t(uint8_t deviceAddress, uint16_t readStartAddress,
+                           uint32_t* registerData, uint16_t dataLen);
   void writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                   uint16_t dataLen);
-  int writeRegisterBy16t(uint8_t deviceAddress, uint16_t registerAddress,
-                         uint16_t data16bit);
-  int writeRegistersBy16t(uint8_t deviceAddress, uint16_t registerAddress,
-                          uint16_t* registerData, uint16_t dataLen);
-  int writeRegistersBy32t(uint8_t deviceAddress, uint16_t registerAddress,
-                          uint32_t* registerData, uint16_t dataLen);
+  Error writeRegisterBy16t(uint8_t deviceAddress, uint16_t registerAddress,
+                           uint16_t data16bit);
+  Error writeRegistersBy16t(uint8_t deviceAddress, uint16_t registerAddress,
+                            uint16_t* registerData, uint16_t dataLen);
+  Error writeRegistersBy32t(uint8_t deviceAddress, uint16_t registerAddress,
+                            uint32_t* registerData, uint16_t dataLen);
 
  private:
   HardwareSerial* serial;
