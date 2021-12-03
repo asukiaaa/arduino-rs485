@@ -16,9 +16,10 @@ enum Error {
   UnmatchCrc = 12,
   UnmatchAddress = 13,
   UnmatchFnCode = 14,
-  UnmatchDataLen = 15,
-  OverQueryMaxLen = 16,
+  ShortDataLen = 15,
 };
+
+String getStrFromError(Error e);
 
 class Central {
  public:

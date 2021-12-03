@@ -5,6 +5,22 @@
 namespace rs485_asukiaaa {
 namespace ModbusRtu {
 
+String getStrFromError(Error e) {
+  switch (e) {
+    case Error::NoResponse:
+      return "no response";
+    case Error::UnmatchAddress:
+      return "unmatch address";
+    case Error::UnmatchCrc:
+      return "unmatch crc";
+    case Error::UnmatchFnCode:
+      return "unmtch fn code";
+    case Error::ShortDataLen:
+      return "short data len";
+  }
+  return "";
+}
+
 Central::Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe) {
   this->serial = serial;
   this->pinDe = pinDe;
@@ -135,8 +151,8 @@ int Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
   if (queryIndex == 0) {
     return Error::NoResponse;
   }
-  if (dataLen != queryIndex - 4) {
-    return Error::UnmatchDataLen;
+  if (dataLen < queryIndex - 4) {
+    return Error::ShortDataLen;
   }
   uint16_t crc = createCRC16(queryBuffer, queryIndex - 2);
   if (highByte(crc) != queryBuffer[queryIndex - 1] ||
