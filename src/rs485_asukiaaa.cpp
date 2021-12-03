@@ -115,14 +115,6 @@ int Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
 #endif
   while (serial->available() > 0 || millis() - waitFrom < msTimeout) {
     if (queryIndex >= queryLenToReceive) {
-      //         if (serial->available() > 0) {
-      // #ifdef DEBUG_PRINT_RS485
-      //           // Serial.println("stop receiving because buffer length was
-      //           over");
-      // #endif
-      //           break;
-      //           // return Error::OverQueryMaxLen;
-      //         }
       break;
     }
     if (serial->available() == 0) {
