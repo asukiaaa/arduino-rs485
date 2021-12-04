@@ -3,6 +3,10 @@
 
 #include <Arduino.h>
 
+#define RS485_ASUKIAAA_VERSION_MAJOR 1
+#define RS485_ASUKIAAA_VERSION_MINOR 2
+#define RS485_ASUKIAAA_VERSION_PATCH 2
+
 namespace rs485_asukiaaa {
 namespace ModbusRtu {
 enum FnCode {
