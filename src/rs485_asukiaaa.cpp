@@ -35,6 +35,10 @@ void Central::beginWithoutSerial() {
   setPinDeRe(LOW);
 }
 
+void Central::setDelayFn(void (*customDelay)(unsigned long ms)) {
+  _delay = customDelay;
+}
+
 void Central::setPinDeRe(bool pinState) {
   digitalWrite(pinDe, pinState);
   if (pinDe != pinRe) {
@@ -63,7 +67,7 @@ void Central::begin(unsigned long baudrate, unsigned long config) {
 void Central::waitForSilentIntervalIfNecessary() {
   auto msFromLastRead = millis() - lastActionAt;
   if (msFromLastRead < msSilentInterval) {
-    delay(msSilentInterval - msFromLastRead);
+    _delay(msSilentInterval - msFromLastRead);
   }
 }
 
@@ -71,7 +75,7 @@ void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                          uint16_t dataLen) {
   waitForSilentIntervalIfNecessary();
   setPinDeRe(HIGH);
-  delay(1);
+  _delay(1);
   uint16_t queryLen = 4 + dataLen;
   uint16_t i;
   uint8_t queryBuffer[queryLen];
@@ -93,7 +97,7 @@ void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
   }
   serial->flush();
   lastActionAt = millis();
-  delay(1);
+  _delay(1);
   setPinDeRe(LOW);
 #ifdef DEBUG_PRINT_RS485
   Serial.print("Send: ");
@@ -160,7 +164,7 @@ Error Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
       break;
     }
     if (serial->available() == 0) {
-      delay(1);
+      _delay(1);
       continue;
     }
     waitFrom = millis();

@@ -41,6 +41,7 @@ class Central {
   Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
   void begin(unsigned long baudrate, unsigned long config = SERIAL_8N1);
   void beginWithoutSerial();
+  void setDelayFn(void (*customDelay)(unsigned long ms));
   Error readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
                   uint16_t dataLen, unsigned long msTimeout = 50UL);
   Error readRegistersBy16t(uint8_t deviceAddress, uint16_t readStartAddress,
@@ -67,6 +68,7 @@ class Central {
   static uint16_t uint8tArrToUint16t(uint8_t* data);
   static uint32_t uint16tArrToUint32t(uint16_t* data);
   static void uint32tToUint16tArr(uint32_t v32t, uint16_t* arr);
+  void (*_delay)(unsigned long ms) = delay;
 };
 
 uint16_t createCRC16(const uint8_t* data, uint16_t dataLen);
