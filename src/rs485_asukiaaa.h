@@ -68,7 +68,7 @@ class Central {
   static uint16_t uint8tArrToUint16t(uint8_t* data);
   static uint32_t uint16tArrToUint32t(uint16_t* data);
   static void uint32tToUint16tArr(uint32_t v32t, uint16_t* arr);
-  void (*_delay)(unsigned long ms) = delay;
+  void (*_delay)(unsigned long ms) = [](unsigned long ms){ delay(ms); };
 };
 
 uint16_t createCRC16(const uint8_t* data, uint16_t dataLen);
