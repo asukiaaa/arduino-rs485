@@ -182,7 +182,7 @@ Error Central::readQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
   if (queryIndex == 0) {
     return Error::NoResponse;
   }
-  if (dataLen < queryIndex - 4) {
+  if (queryIndex < 4 || dataLen < queryIndex - 4) {
     return Error::ShortDataLen;
   }
   uint16_t crc = createCRC16(queryBuffer, queryIndex - 2);
