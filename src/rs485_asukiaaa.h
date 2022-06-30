@@ -5,7 +5,7 @@
 
 #define RS485_ASUKIAAA_VERSION_MAJOR 1
 #define RS485_ASUKIAAA_VERSION_MINOR 2
-#define RS485_ASUKIAAA_VERSION_PATCH 4
+#define RS485_ASUKIAAA_VERSION_PATCH 5
 
 namespace rs485_asukiaaa {
 namespace ModbusRtu {
