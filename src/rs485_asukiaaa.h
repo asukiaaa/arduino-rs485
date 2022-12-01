@@ -52,6 +52,8 @@ class Central {
                   uint16_t dataLen);
   Error writeRegisterBy16t(uint8_t deviceAddress, uint16_t registerAddress,
                            uint16_t data16bit);
+  Error writeRegisterBy32t(uint8_t deviceAddress, uint16_t registerAddress,
+                           uint32_t data32bit);
   Error writeRegistersBy16t(uint8_t deviceAddress, uint16_t registerAddress,
                             uint16_t* registerData, uint16_t dataLen);
   Error writeRegistersBy32t(uint8_t deviceAddress, uint16_t registerAddress,

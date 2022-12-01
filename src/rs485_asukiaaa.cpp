@@ -119,6 +119,14 @@ Error Central::writeRegisterBy16t(uint8_t deviceAddress,
   return readQuery(deviceAddress, writeFnCode, data, sizeof(data));
 }
 
+Error Central::writeRegisterBy32t(uint8_t deviceAddress,
+                                  uint16_t registerAddress,
+                                  uint32_t data32bit) {
+  uint16_t data[2];
+  uint32tToUint16tArr(data32bit, data);
+  return writeRegistersBy16t(deviceAddress, registerAddress, data, 2);
+}
+
 Error Central::writeRegistersBy32t(uint8_t deviceAddress,
                                    uint16_t writeStartAddress,
                                    uint32_t* registerData, uint16_t dataLen) {
