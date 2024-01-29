@@ -37,6 +37,9 @@ unsigned long getMsSilintIntervalByBaudrate(unsigned long baudrate);
 class Central {
  public:
   unsigned long msSilentInterval = 16;
+  HardwareSerial* serial;
+  const int16_t pinDe;
+  const int16_t pinRe;
 
   Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe);
   void begin(unsigned long baudrate, unsigned long config = SERIAL_8N1);
@@ -60,9 +63,6 @@ class Central {
                             uint32_t* registerData, uint16_t dataLen);
 
  private:
-  HardwareSerial* serial;
-  int16_t pinDe;
-  int16_t pinRe;
   unsigned long lastActionAt = 0;
 
   void waitForSilentIntervalIfNecessary();

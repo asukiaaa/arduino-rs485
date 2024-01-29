@@ -23,10 +23,9 @@ String getStrOfError(Error e) {
   return "";
 }
 
-Central::Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe) {
+Central::Central(HardwareSerial* serial, int16_t pinDe, int16_t pinRe)
+    : pinDe(pinDe), pinRe(pinRe) {
   this->serial = serial;
-  this->pinDe = pinDe;
-  this->pinRe = pinRe;
 }
 
 void Central::beginWithoutSerial() {
