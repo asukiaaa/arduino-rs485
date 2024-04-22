@@ -58,9 +58,9 @@ class Central {
   Error writeRegisterBy32t(uint8_t deviceAddress, uint16_t registerAddress,
                            uint32_t data32bit);
   Error writeRegistersBy16t(uint8_t deviceAddress, uint16_t registerAddress,
-                            uint16_t* registerData, uint16_t dataLen);
+                            const uint16_t* registerData, uint16_t dataLen);
   Error writeRegistersBy32t(uint8_t deviceAddress, uint16_t registerAddress,
-                            uint32_t* registerData, uint16_t dataLen);
+                            const uint32_t* registerData, uint16_t dataLen);
 
  private:
   unsigned long lastActionAt = 0;

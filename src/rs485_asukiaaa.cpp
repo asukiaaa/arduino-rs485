@@ -128,7 +128,8 @@ Error Central::writeRegisterBy32t(uint8_t deviceAddress,
 
 Error Central::writeRegistersBy32t(uint8_t deviceAddress,
                                    uint16_t writeStartAddress,
-                                   uint32_t* registerData, uint16_t dataLen) {
+                                   const uint32_t* registerData,
+                                   uint16_t dataLen) {
   uint16_t data[dataLen * 2];
   for (int i = 0; i < dataLen; ++i) {
     uint32tToUint16tArr(registerData[i], &data[i * 2]);
@@ -139,7 +140,8 @@ Error Central::writeRegistersBy32t(uint8_t deviceAddress,
 
 Error Central::writeRegistersBy16t(uint8_t deviceAddress,
                                    uint16_t registerAddress,
-                                   uint16_t* registerData, uint16_t dataLen) {
+                                   const uint16_t* registerData,
+                                   uint16_t dataLen) {
   const uint16_t writeLen = dataLen * 2 + 5;
   uint8_t writeData[writeLen] = {
       highByte(registerAddress), lowByte(registerAddress), highByte(dataLen),
