@@ -96,7 +96,6 @@ void Central::writeQuery(uint8_t address, uint8_t fnCode, uint8_t* data,
   }
   serial->flush();
   lastActionAt = millis();
-  _delay(1);
   setPinDeRe(LOW);
 #ifdef DEBUG_PRINT_RS485
   Serial.print("Send: ");
